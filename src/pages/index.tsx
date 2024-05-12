@@ -2,10 +2,18 @@ import Head from "next/head";
 import Image from "next/image";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Home.module.css";
+import Example from "@/components/Example/Example";
+//import { connectToDatabase } from "@/server";
+import { Sequelize } from "sequelize";
+import ExampleId from "@/models/example";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
+
+export default function Home({ids}:any) {
+
+console.log(ids)
+
   return (
     <>
       <Head>
@@ -36,6 +44,7 @@ export default function Home() {
                 priority
               />
             </a>
+            <Example id={ids}/>
           </div>
         </div>
 
@@ -112,3 +121,57 @@ export default function Home() {
     </>
   );
 }
+
+export async function getServerSideProps() {
+  const sequelize = new Sequelize("example", "root", "3011", {
+    host: "localhost",
+    dialect: "mysql",
+  });
+
+  try {
+    await sequelize.authenticate();
+    console.log("соединение с базой данных было успешно установлено");
+
+    // Пример использования модели для выполнения запроса к базе данных
+    const ids = await ExampleId.findAll({ attributes: ['id'] }); // Выбираем только id
+
+    return {
+      props: {
+        ids: ids.map(id => id.id), // Возвращаем массив значений id
+      },
+    };
+  } catch (e) {
+    console.log("Невозможно выполнить подключение к базе данных:", e);
+    return {
+      props: {
+        ids: [],
+      },
+    };
+  }
+}
+
+
+
+
+
+// export async function getServerSideProps() {
+//   //connectToDatabase();
+// const connectToDatabase = async () => {
+//     const sequelize = new Sequelize("example", "root", "3011", {
+//       host: "localhost",
+//       dialect: "mysql",
+//     });
+  
+//     try {
+//       await sequelize.authenticate();
+//       console.log("соединение с базой данных было успешно установлено");
+//       const [results, metadata] = await sequelize.query('SELECT * FROM your_table');
+//     } catch (e) {
+//       console.log("Невозможно выполнить подключение к базе данных:", e);
+//     }
+//   };
+//   connectToDatabase()
+//   return {
+//     props: {data:results}
+//   };
+// }
