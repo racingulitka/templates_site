@@ -8,13 +8,13 @@ export default function Example({id}:{id:number[]}){
 
     return(
         <div className={styles.wrapper}>
-            {/* {
+            {
                 id.map(id => {
                     return(
                         <div key={id} className={styles.exampleCard}>{id}</div>
                     )
                 })
-            } */}
+            }
         </div>
     )
 }
