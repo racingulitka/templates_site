@@ -122,7 +122,7 @@ console.log(ids)
   );
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const sequelize = new Sequelize("example", "root", "3011", {
     host: "localhost",
     dialect: "mysql",
