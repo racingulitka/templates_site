@@ -8,7 +8,7 @@ export default function Example({id}:{id:number[]}){
 
     return(
         <div className={styles.wrapper}>
-            <p> hello </p>
+            <p> hello</p>
             {
                 id.map(id => {
                     return(

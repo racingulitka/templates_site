@@ -137,7 +137,7 @@ export async function getServerSideProps() {
 
     return {
       props: {
-        ids: ids.map(id => id.id), // Возвращаем массив значений id
+        ids: ids.map((id: { id: string }) => id.id), // Возвращаем массив значений id
       },
     };
   } catch (e) {
