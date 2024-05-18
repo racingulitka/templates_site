@@ -11,12 +11,15 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3  # Обновлено до v3
+        uses: actions/checkout@v3
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3  # Обновлено до v3
+        uses: actions/setup-node@v3
         with:
           node-version: '20'  # Используем Node.js 20
+
+      - name: Check Node.js version
+        run: node -v  # Проверка версии Node.js
 
       - name: Install Dependencies
         run: npm install
@@ -24,11 +27,8 @@ jobs:
       - name: Build Project
         run: npm run build
 
-      - name: Export Static Files
-        run: npm run export
-
       - name: Deploy to Hosting
-        uses: SamKirkland/FTP-Deploy-Action@4.3.0  # Убедитесь, что используете последнюю версию
+        uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
